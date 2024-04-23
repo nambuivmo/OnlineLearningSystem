@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>View list account</title>
+    <style>
+        /* Thiết lập font chung cho toàn bộ trang */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Phần menu admin */
+        #menuAdmin {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+        }
+
+        #menuAdmin h1 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .menuAdminFunction {
+            margin-top: 10px;
+        }
+
+        .menuAdminFunction a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .menuAdminFunction a:hover {
+            color: #f0f0f0;
+        }
+
+        /* Phần danh sách tài khoản */
+        .viewListAccount {
+            margin: 20px;
+        }
+
+        .viewListAccount table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .viewListAccount th, .viewListAccount td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .viewListAccount th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .viewListAccount tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .viewListAccount tbody tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="menuAdmin">
+        <h1>Menu Admin</h1>
+        <div class="menuAdminFunction">
+            <a href="#">Dashboard</a>
+            <a href="#">Account</a>
+            <a href="#">Student</a>
+            <a href="#">Teacher</a>
+            <a href="#">Course</a>
+        </div>
+    </div>
+    <div class="viewListAccount">
+        <table>
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Banned</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sử dụng Thymeleaf để lặp qua danh sách tài khoản -->
+            <tr th:each="account, accountIndex : ${accounts}">
+                <!-- Sử dụng index của vòng lặp làm số thứ tự (STT) -->
+                <td th:text="${accountIndex.index + 1}"></td>
+                <td th:text="${account.email}"></td>
+                <td th:text="${account.password}"></td>
+                <td th:text="${account.role}"></td>
+                <!-- Ví dụ: Nếu `banned` là boolean, có thể hiển thị dưới dạng Yes/No -->
+                <td th:text="${account.banned ? 'Yes' : 'No'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
