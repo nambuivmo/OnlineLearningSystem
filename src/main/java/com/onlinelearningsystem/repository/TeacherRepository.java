@@ -1,4 +1,7 @@
 package com.onlinelearningsystem.repository;
 
-public class TeacherRepository {
+import com.onlinelearningsystem.model.Teacher;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 }

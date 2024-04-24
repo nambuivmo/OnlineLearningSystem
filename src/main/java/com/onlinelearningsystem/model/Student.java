@@ -40,4 +40,6 @@ public class Student {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", nullable = false, unique = true)
     private Account account;
+
+
 }
