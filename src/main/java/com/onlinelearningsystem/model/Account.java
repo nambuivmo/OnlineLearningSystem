@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_account")
@@ -26,7 +28,8 @@ public class Account {
     @Column(name = "is_banned", nullable = false)
     private boolean isBanned;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Adding fetch type to optimize loading strategy
-    @JoinColumn(name = "role_id" , nullable = false, unique = true) // Explicitly specify join column
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", nullable = false)
     private RoleAccount roleAccount;
+
 }

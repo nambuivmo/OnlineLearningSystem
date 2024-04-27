@@ -1,4 +1,4 @@
 package com.onlinelearningsystem.repository;
 
-public class PaymentRepository {
+public interface PaymentRepository {
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -12,34 +14,33 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
+public class Student implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_student")
-    private long idStudent;
+    private long id;
 
     @Column(name = "first_name", nullable = false, length = 50)
-    private String firstNameStudent;
+    private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 50)
-    private String lastNameStudent;
+    private String lastName;
 
     @Column(name = "dob", nullable = false)
-    private LocalDate dobStudent;
+    private LocalDate dob;
 
     @Column(name = "gender_student", nullable = false, length = 10)
-    private String genderStudent;
+    private boolean gender;
 
     @Column(name = "address_student", nullable = false)
-    private String addressStudent;
+    private String address;
 
     @Column(name = "phone_number", nullable = false, length = 20)
-    private String phoneNumberStudent;
+    private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", nullable = false, unique = true)
     private Account account;
-
 
 }

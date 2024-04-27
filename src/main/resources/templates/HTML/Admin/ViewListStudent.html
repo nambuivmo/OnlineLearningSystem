@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>View list account</title>
+    <title>View list student</title>
     <style>
         /* Thiết lập font chung cho toàn bộ trang */
         body {
@@ -68,40 +68,41 @@
     </style>
 </head>
 <body>
-    <div id="menuAdmin">
-        <h1>Menu Admin</h1>
-        <div class="menuAdminFunction">
-            <a href="#">Dashboard</a>
-            <a href="/account/list">Account</a>
-            <a href="/student/list">Student</a>
-            <a href="#">Teacher</a>
-            <a href="#">Course</a>
-        </div>
+<div id="menuAdmin">
+    <h1>Menu Admin</h1>
+    <div class="menuAdminFunction">
+        <a href="#">Dashboard</a>
+        <a href="/account/list">Account</a>
+        <a href="/student/list">Student</a>
+        <a href="#">Teacher</a>
+        <a href="#">Course</a>
     </div>
-    <div class="viewListAccount">
-        <table>
-            <thead>
-            <tr>
-                <th>STT</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Role</th>
-                <th>Banned</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Sử dụng Thymeleaf để lặp qua danh sách tài khoản -->
-            <tr th:each="account, accountIndex : ${accounts}">
-                <!-- Sử dụng index của vòng lặp làm số thứ tự (STT) -->
-                <td th:text="${accountIndex.index + 1}"></td>
-                <td th:text="${account.email}"></td>
-                <td th:text="${account.password}"></td>
-                <td th:text="${account.roleName}"></td>
-                <!-- Hiển thị trạng thái Banned -->
-                <td th:text="${account.isBanned ? 'Yes' : 'No'}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+</div>
+<div class="viewListAccount">
+    <table>
+        <thead>
+        <tr>
+            <th>STT</th>
+            <th>Name</th>
+            <th>Date of birth</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Phone number</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Sử dụng Thymeleaf để lặp qua danh sách tài khoản -->
+        <tr th:each="student, studentIndex : ${students}">
+            <!-- Sử dụng index của vòng lặp làm số thứ tự (STT) -->
+            <td th:text="${studentIndex.index + 1}"></td>
+            <td th:text="${student.firstName + ' ' + student.lastName}"></td>
+            <td th:text="${student.dob}"></td>
+            <td th:text="${account.gender ? 'Male' : 'Female'}"></td>
+            <td th:text="${student.address}"></td>
+            <td th:text="${student.phoneNumber}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
