@@ -13,5 +13,7 @@ public interface IStudentService {
 
     Student createStudent(Student student);
 
-    Student updateStudent(Student student);
+    Student updateStudent(Long id,Student student);
+
+    List<StudentInforListDTO> getStudent(String firstName, String lastName);
 }

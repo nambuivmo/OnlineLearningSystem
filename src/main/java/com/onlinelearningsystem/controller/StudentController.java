@@ -31,9 +31,15 @@ public class StudentController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity < Student > updateStudent(@PathVariable long id, @RequestBody Student student) {
-        student.setId(id);
-        return ResponseEntity.ok().body(this.istudentservice.updateStudent(student));
+    public ResponseEntity<?> updateStudent(@PathVariable long id, @RequestBody Student student) {
+        istudentservice.updateStudent(id, student);
+        return ResponseEntity.ok().body("Your profile is edited!");
+    }
+
+
+    @GetMapping("/search/")
+    public ResponseEntity<List<StudentInforListDTO>> getAccount(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
+        return ResponseEntity.ok().body(this.istudentservice.getStudent(firstName, lastName));
     }
 
     //View

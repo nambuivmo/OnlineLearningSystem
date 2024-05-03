@@ -26,7 +26,24 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Student updateStudent(Student student) {
-        return null;
+    public Student updateStudent(Long id, Student student) {
+        Student studentId= studentRepository.findById(id).get();
+        studentId.setFirstName(student.getFirstName());
+        studentId.setLastName(student.getLastName());
+        studentId.setDob(student.getDob());
+        studentId.setGender(student.isGender());
+        studentId.setAddress(student.getAddress());
+        studentId.setPhoneNumber(student.getPhoneNumber());
+        return studentRepository.save(studentId);
+    }
+
+    @Override
+    public List<StudentInforListDTO> getStudent(String firstName, String lastName) {
+        if (firstName == null) {
+             firstName="";
+        }else if (lastName == null) {
+            lastName="";
+        }
+        return this.studentRepository.getUser(firstName, lastName);
     }
 }

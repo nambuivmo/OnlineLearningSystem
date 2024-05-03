@@ -1,12 +1,13 @@
 package com.onlinelearningsystem.controller;
 
+import com.onlinelearningsystem.dto.StudentInforListDTO;
+import com.onlinelearningsystem.dto.TeacherDTO;
+import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.model.Teacher;
 import com.onlinelearningsystem.service.teacher.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,9 +17,26 @@ public class TeacherController {
     @Autowired
     private ITeacherService teacherService;
 
+    //API
     @GetMapping("/list")
-    public ResponseEntity<List<Teacher>> findAll() {
+    public ResponseEntity <List<TeacherDTO>> getAllTeacher() {
         return ResponseEntity.ok().body(teacherService.findAll());
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity <Student> createStudent(@RequestBody Teacher teacher) {
+        return ResponseEntity.ok().body(this.teacherService.createTeacher(teacher));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable long id, @RequestBody Teacher teacher) {
+        teacherService.updateTeacher(id, teacher);
+        return ResponseEntity.ok().body("Your profile is edited!");
+    }
+
+    @GetMapping("/search/")
+    public ResponseEntity<List<TeacherDTO>> getAccount(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
+        return ResponseEntity.ok().body(this.teacherService.getTeacher(firstName, lastName));
     }
 
 }

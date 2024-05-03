@@ -36,9 +36,10 @@ public class AccountController {
 //    @GetMapping("/list")
 //    public String listAccounts(Model model) {
 //        List<AccountDto> accounts = accountService.findAll(); // Lấy danh sách account từ service
-//        model.addAttribute("accounts", accounts); // Thêm danh sách account vào model
+//        model.addAttribute("accounts", accounts);// Thêm danh sách account vào model
 //        return "HTML/Admin/ViewListAccount"; // Trả về view HTML
 //    }
+
 
 
 
