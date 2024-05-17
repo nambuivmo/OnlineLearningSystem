@@ -16,7 +16,7 @@ public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_teacher")
+    @Column(name = "id")
     private long id;
 
     @Column(name = "first_name", nullable = false, length = 50)
@@ -29,7 +29,7 @@ public class Teacher {
     private LocalDate dob;
 
     @Column(nullable = false, length = 10)
-    private String gender;
+    private boolean gender;
 
     @Column(nullable = false)
     private String address;
@@ -38,6 +38,6 @@ public class Teacher {
     private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", nullable = false, unique = true)
+    @JoinColumn(name = "id_account", nullable = false, unique = true)
     private Account account;
 }

@@ -18,7 +18,7 @@ public class Student implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_student")
+    @Column(name = "id")
     private long id;
 
     @Column(name = "first_name", nullable = false, length = 50)
@@ -30,17 +30,17 @@ public class Student implements Serializable {
     @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
-    @Column(name = "gender_student", nullable = false, length = 10)
+    @Column(name = "gender", nullable = false, length = 10)
     private boolean gender;
 
-    @Column(name = "address_student", nullable = false)
+    @Column(name = "address", nullable = false)
     private String address;
 
     @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", nullable = false, unique = true)
+    @JoinColumn(name = "id_account", nullable = false, unique = true)
     private Account account;
 
 }

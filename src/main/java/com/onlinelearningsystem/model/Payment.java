@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class Payment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_payment")
+    @Column(name = "id")
     private int paymentId;
 
     @Column(name = "amount", nullable = false)

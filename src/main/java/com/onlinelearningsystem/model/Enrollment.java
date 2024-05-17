@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class Enrollment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_enrollment")
+    @Column(name = "id")
     private int enrollmentId;
 
     @OneToOne(fetch = FetchType.LAZY)
