@@ -1,6 +1,6 @@
 package com.onlinelearningsystem.service.student;
 
-import com.onlinelearningsystem.dto.StudentInforListDTO;
+import com.onlinelearningsystem.dto.StudentDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class StudentServiceImpl implements IStudentService {
 
 
     @Override
-    public List<StudentInforListDTO> findAll() {
+    public List<StudentDTO> findAll() {
         return this.studentRepository.findAllStudent();
     }
 
@@ -38,7 +38,7 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<StudentInforListDTO> getStudent(String firstName, String lastName) {
+    public List<StudentDTO> getStudent(String firstName, String lastName) {
         if (firstName == null) {
              firstName="";
         }else if (lastName == null) {

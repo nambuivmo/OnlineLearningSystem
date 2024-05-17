@@ -2,7 +2,7 @@ package com.onlinelearningsystem.dto;
 
 import java.time.LocalDate;
 
-public interface StudentInforListDTO {
+public interface StudentDTO {
 
     public Long getId();
 

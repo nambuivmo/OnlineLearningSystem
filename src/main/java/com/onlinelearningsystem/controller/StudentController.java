@@ -1,12 +1,11 @@
 package com.onlinelearningsystem.controller;
 
-import com.onlinelearningsystem.dto.StudentInforListDTO;
+import com.onlinelearningsystem.dto.StudentDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.service.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class StudentController {
 
     //API
     @GetMapping("/list")
-    public ResponseEntity <List<StudentInforListDTO>> getAllStudent() {
+    public ResponseEntity <List<StudentDTO>> getAllStudent() {
         return ResponseEntity.ok().body(istudentservice.findAll());
     }
 
@@ -38,7 +37,7 @@ public class StudentController {
 
 
     @GetMapping("/search/")
-    public ResponseEntity<List<StudentInforListDTO>> getAccount(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
+    public ResponseEntity<List<StudentDTO>> getStudent(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
         return ResponseEntity.ok().body(this.istudentservice.getStudent(firstName, lastName));
     }
 
@@ -49,9 +48,5 @@ public class StudentController {
 //        model.addAttribute("students", students); // Thêm danh sách account vào model
 //        return "HTML/Admin/ViewListStudent"; // Trả về view HTML
 //    }
-
-
-
-
 
 }
