@@ -1,14 +1,17 @@
 package com.onlinelearningsystem.dto;
 
-public interface AccountDto {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    public Long getIdAccount();
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class AccountDto {
+    private Long id;
+    private String email;
+    private String password;
+    private boolean isBanned;
+    private String roleName;
 
-    public String getEmail();
-
-    public String getPassword();
-
-    public boolean getIsBanned();
-
-    public String getRoleName();
 }
