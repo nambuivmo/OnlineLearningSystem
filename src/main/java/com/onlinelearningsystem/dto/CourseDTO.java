@@ -9,7 +9,9 @@ public interface CourseDTO {
 
     public String getDescription();
 
-    public LocalDate getDob();
+    public LocalDate getCreateDate();
+
+    public String getFirstName();
 
     public String getLastName();
 }
