@@ -27,7 +27,7 @@ public class TeacherServiceImpl implements ITeacherService{
         teacherId.setFirstName(teacher.getFirstName());
         teacherId.setLastName(teacher.getLastName());
         teacherId.setDob(teacher.getDob());
-        teacherId.setGender(teacher.getGender());
+        teacherId.setGender(teacher.isGender());
         teacherId.setAddress(teacher.getAddress());
         teacherId.setPhoneNumber(teacher.getPhoneNumber());
         return teacherRepository.save(teacherId);

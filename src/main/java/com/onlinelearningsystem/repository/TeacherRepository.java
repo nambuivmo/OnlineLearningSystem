@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @Query(nativeQuery = true,
-            value="Select t.id_teacher as id, t.first_name as firstName, t.last_name as lastName, t.dob as dob," +
+            value="Select t.id as id, t.first_name as firstName, t.last_name as lastName, t.dob as dob," +
                     "t.gender as gender, t.address as address, t.phone_number as phoneNumber from teacher t"
     )
     List<TeacherDTO> findAllTeacher();
 
     @Query(nativeQuery = true,
-            value="Select t.id_teacher as id, t.first_name as firstName, t.last_name as lastName, t.dob as dob," +
-                    "t.gender as gender, t.address as address, t.phone_number as phoneNumber from teacher t" +
+            value="Select t.id as id, t.first_name as firstName, t.last_name as lastName, t.dob as dob," +
+                    "t.gender as gender, t.address as address, t.phone_number as phoneNumber from teacher t\n" +
                     "WHERE t.first_name LIKE CONCAT('%', ?1, '%') AND t.last_name LIKE CONCAT('%', ?2, '%')"
     )
     List<TeacherDTO> getTeacher(String firstName, String lastName);

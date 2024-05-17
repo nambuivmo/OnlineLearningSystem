@@ -1,6 +1,5 @@
 package com.onlinelearningsystem.controller;
 
-import com.onlinelearningsystem.dto.StudentInforListDTO;
 import com.onlinelearningsystem.dto.TeacherDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.model.Teacher;
@@ -24,18 +23,18 @@ public class TeacherController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity <Student> createStudent(@RequestBody Teacher teacher) {
+    public ResponseEntity <Student> createTeacher(@RequestBody Teacher teacher) {
         return ResponseEntity.ok().body(this.teacherService.createTeacher(teacher));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable long id, @RequestBody Teacher teacher) {
+    public ResponseEntity<?> updateTeacher(@PathVariable long id, @RequestBody Teacher teacher) {
         teacherService.updateTeacher(id, teacher);
         return ResponseEntity.ok().body("Your profile is edited!");
     }
 
     @GetMapping("/search/")
-    public ResponseEntity<List<TeacherDTO>> getAccount(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
+    public ResponseEntity<List<TeacherDTO>> getTeacher(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
         return ResponseEntity.ok().body(this.teacherService.getTeacher(firstName, lastName));
     }
 
