@@ -1,5 +1,6 @@
 package com.onlinelearningsystem.service.course;
 
+import com.onlinelearningsystem.dto.AddCourseDTO;
 import com.onlinelearningsystem.dto.CourseDTO;
 import com.onlinelearningsystem.model.Course;
 import com.onlinelearningsystem.repository.CourseRepository;
@@ -10,7 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,18 +50,6 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
-    public List<CourseDTO> getCourse(String courseName, String firstName, String lastName) {
-        if (firstName == null) {
-            firstName="";
-        }else if (lastName == null) {
-            lastName="";
-        }else if(courseName == null){
-            courseName="";
-        }
-        return this.courseRepository.getCourse(courseName,firstName, lastName);
-    }
-
-    @Override
     public Course updateCourse(long id, Course course) {
         Optional<Course> courseDbOptional  = this.courseRepository.findById(id);
         if (courseDbOptional.isPresent()) {
@@ -71,13 +62,12 @@ public class CourseServiceImpl implements ICourseService {
         }
     }
 
+    @Transactional
     @Override
-    public void createCourse(Course course) {
-//        if (course != null) {
-//            LocalDate dateNow = LocalDate.now();
-//            // Truyền id người tạo từ session hoặc token
-//            long teacherId = getLoggedInUserId(); // Phương thức này phải được triển khai để lấy id của người dùng đăng nhập
-//            this.courseRepository.createCourse(course.getName(), dateNow, course.getDescription(), teacherId);
-//        }
+    public void createCourse(long teacherId, AddCourseDTO course) {
+        if (course != null) {
+            LocalDate dateNow = LocalDate.now();
+            this.courseRepository.createCourse(course.getName(), dateNow, course.getDescription(), teacherId);
+        }
     }
 }
