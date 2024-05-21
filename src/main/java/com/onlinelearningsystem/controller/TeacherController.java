@@ -1,10 +1,11 @@
 package com.onlinelearningsystem.controller;
 
 import com.onlinelearningsystem.dto.TeacherDTO;
-import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.model.Teacher;
+import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.teacher.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +19,19 @@ public class TeacherController {
 
     //API
     @GetMapping("/list")
-    public ResponseEntity <List<TeacherDTO>> getAllTeacher() {
-        return ResponseEntity.ok().body(teacherService.findAll());
+    public ResponseEntity <PageResponse<TeacherDTO>> getAllTeacher(
+            @RequestParam("pageNumber") int pageNumber,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") String sortOrder,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName
+    ) {
+        PageResponse<TeacherDTO> teacherPage = teacherService.findAll(pageNumber,sortBy,sortOrder,firstName,lastName);
+        return new ResponseEntity<>(teacherPage, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity <Student> createTeacher(@RequestBody Teacher teacher) {
+    public ResponseEntity <Teacher> createTeacher(@RequestBody Teacher teacher) {
         return ResponseEntity.ok().body(this.teacherService.createTeacher(teacher));
     }
 
@@ -33,9 +41,10 @@ public class TeacherController {
         return ResponseEntity.ok().body("Your profile is edited!");
     }
 
-    @GetMapping("/search/")
-    public ResponseEntity<List<TeacherDTO>> getTeacher(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
-        return ResponseEntity.ok().body(this.teacherService.getTeacher(firstName, lastName));
+    @GetMapping("viewProfile")
+    public ResponseEntity<TeacherDTO> getTeacherProfile(@RequestParam("id") long id) {
+        return ResponseEntity.ok().body(this.teacherService.getTeacherById(id));
     }
+
 
 }
