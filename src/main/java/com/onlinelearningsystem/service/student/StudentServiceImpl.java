@@ -3,7 +3,12 @@ package com.onlinelearningsystem.service.student;
 import com.onlinelearningsystem.dto.StudentDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.repository.StudentRepository;
+import com.onlinelearningsystem.response.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +21,28 @@ public class StudentServiceImpl implements IStudentService {
 
 
     @Override
-    public List<StudentDTO> findAll() {
-        return this.studentRepository.findAllStudent();
+    public PageResponse<StudentDTO> findAll(int pageNumber,String sortBy,String sortOrder,String firstName,String lastName) {
+        int pageSize = 5;
+        Pageable pageable;
+
+        if (sortOrder.equalsIgnoreCase("asc")) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        }
+        if (firstName == null) {
+            firstName = "";
+        }
+        if (lastName == null) {
+            lastName = "";
+        }
+        Page<StudentDTO> studentPage = studentRepository.findAllStudent(pageable,firstName,lastName);
+        PageResponse<StudentDTO> pageResponse = new PageResponse<>();
+        pageResponse.setItems(studentPage.getContent());
+        pageResponse.setTotalElements(studentPage.getTotalElements());
+        pageResponse.setTotalPages(studentPage.getTotalPages());
+        pageResponse.setPageNo(pageNumber);
+        return pageResponse;
     }
 
     @Override
@@ -38,12 +63,8 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public List<StudentDTO> getStudent(String firstName, String lastName) {
-        if (firstName == null) {
-             firstName="";
-        }else if (lastName == null) {
-            lastName="";
-        }
-        return this.studentRepository.getUser(firstName, lastName);
+    public StudentDTO getStudent(long id) {
+        return  studentRepository.getStudent(id);
     }
+
 }

@@ -1,9 +1,13 @@
 package com.onlinelearningsystem.controller;
 
+import com.onlinelearningsystem.dto.AccountDto;
 import com.onlinelearningsystem.dto.StudentDTO;
+import com.onlinelearningsystem.dto.TeacherDTO;
 import com.onlinelearningsystem.model.Student;
+import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +24,15 @@ public class StudentController {
 
     //API
     @GetMapping("/list")
-    public ResponseEntity <List<StudentDTO>> getAllStudent() {
-        return ResponseEntity.ok().body(istudentservice.findAll());
+    public ResponseEntity <PageResponse<StudentDTO>> getAllStudent(
+            @RequestParam("pageNumber") int pageNumber,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") String sortOrder,
+            @RequestParam(name ="firstName") String firstName,
+            @RequestParam(name ="lastName") String lastName
+    ) {
+        PageResponse<StudentDTO> studentPage = istudentservice.findAll(pageNumber,sortBy,sortOrder,firstName,lastName);
+        return new ResponseEntity<>(studentPage, HttpStatus.OK);
     }
 
     @PostMapping("/add")
@@ -35,10 +46,9 @@ public class StudentController {
         return ResponseEntity.ok().body("Your profile is edited!");
     }
 
-
-    @GetMapping("/search/")
-    public ResponseEntity<List<StudentDTO>> getStudent(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName){
-        return ResponseEntity.ok().body(this.istudentservice.getStudent(firstName, lastName));
+    @GetMapping("viewProfile")
+    public ResponseEntity<StudentDTO> getTeacherProfile(@RequestParam("id") long id) {
+        return ResponseEntity.ok().body(this.istudentservice.getStudent(id));
     }
 
     //View
