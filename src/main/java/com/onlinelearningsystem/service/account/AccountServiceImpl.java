@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements IAccountService{
@@ -31,34 +30,7 @@ public class AccountServiceImpl implements IAccountService{
     @Autowired
     private TokenRepository tokenRepository;
 
-    @Override
-    public PageResponse<AccountDto> findAll(int pageNo, int pageSize, String sortBy,String sortDir) {
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
 
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<AccountDto> accountsPage = accountRepository.findAllAccount(pageable);
-        List<AccountDto> content = accountsPage.getContent();
-
-        PageResponse<AccountDto> pageResponse = new PageResponse<>();
-        pageResponse.setItems(content);
-        pageResponse.setPageNo(accountsPage.getNumber());
-        pageResponse.setPageSize(accountsPage.getSize());
-        pageResponse.setTotalElements(accountsPage.getTotalElements());
-        pageResponse.setTotalPages(accountsPage.getTotalPages());
-        pageResponse.setLast(accountsPage.isLast());
-        return pageResponse;
-    }
-
-//    private AccountDto convertToAccountDto(Account account) {
-//        AccountDto accountDto = new AccountDto();
-//        accountDto.setId(account.getIdAccount());
-//        accountDto.setEmail(account.getEmail());
-//        accountDto.setPassword(account.getPassword());
-//        accountDto.setBanned(account.isBanned());
-//        accountDto.setRoleName(account.getRoleAccount() != null ? account.getRoleAccount().getRoleName() : null);
-//        return accountDto;
-//    }
 
     @Override
     public Account updateActive(long id, boolean isBanned) {
@@ -73,10 +45,6 @@ public class AccountServiceImpl implements IAccountService{
         }
     }
 
-    @Override
-    public List<AccountDto> getAccount(String email) {
-        return this.accountRepository.getAccount(email);
-    }
 
     @Override
     public LoginResponse login(LoginDTO loginDTO) {
@@ -105,6 +73,24 @@ public class AccountServiceImpl implements IAccountService{
         }
     }
 
+    @Override
+    public PageResponse<AccountDto> findAll(int pageNumber,String sortBy,String sortOrder,String email) {
+        int pageSize = 5;
+        Pageable pageable;
+
+        if (sortOrder.equalsIgnoreCase("asc")) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        }
+        Page<AccountDto> accountPage = accountRepository.findAllAccount(pageable,email);
+        PageResponse<AccountDto> pageResponse = new PageResponse<>();
+        pageResponse.setItems(accountPage.getContent());
+        pageResponse.setTotalElements(accountPage.getTotalElements());
+        pageResponse.setTotalPages(accountPage.getTotalPages());
+        pageResponse.setPageNo(pageNumber);
+        return pageResponse;
+    }
 
 
     private void saveUserToken(Account account, String jwtToken) {

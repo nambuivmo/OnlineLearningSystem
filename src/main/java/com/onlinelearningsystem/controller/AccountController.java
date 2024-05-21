@@ -4,7 +4,6 @@ import com.onlinelearningsystem.dto.AccountDto;
 import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.account.IAccountService;
-import com.onlinelearningsystem.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,30 +26,20 @@ public class AccountController {
     private IAccountService accountService;
     @GetMapping("")
 //    @PreAuthorize("hasAuthority('admin:read')")
-//    public ResponseEntity<Page<AccountDto>> findAll(Pageable pageable) {
-//        Page<AccountDto> accountPage = accountService.findAll(pageable);
-//        return new ResponseEntity<>(accountPage, HttpStatus.OK);
-////        return ResponseEntity.ok().body(pageResponse);
-//    }
-    public ResponseEntity<PageResponse<AccountDto>> getAllPosts(
-            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    public ResponseEntity<PageResponse<AccountDto>> findAll(
+            @RequestParam(name ="pageNumber",required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") String sortOrder,
+            @RequestParam(name ="searchByEmail", required = false, defaultValue = "") String email
     ){
-        return ResponseEntity.ok().body( accountService.findAll(pageNo, pageSize, sortBy,sortDir));
+        PageResponse<AccountDto> accountPage = accountService.findAll(pageNumber,sortBy,sortOrder,email);
+        return new ResponseEntity<>(accountPage, HttpStatus.OK);
     }
 
     @PutMapping("/updateActive/")
     @PreAuthorize("hasAuthority('admin:update')")
     public ResponseEntity<Account> updateActive(@RequestParam("id") long id, @RequestParam("isBanned") boolean isBanned){
         return ResponseEntity.ok().body(accountService.updateActive(id, isBanned));
-    }
-
-    @GetMapping("/search/")
-    @PreAuthorize("hasAuthority('admin:read')")
-    public ResponseEntity<List<AccountDto>> getAccount(@RequestParam("email") String email){
-        return ResponseEntity.ok().body(accountService.getAccount(email));
     }
 
 //    @GetMapping("/list")
