@@ -40,8 +40,8 @@ public class StudentController {
         return ResponseEntity.ok().body(this.istudentservice.createStudent(student));
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateStudent(@PathVariable long id, @RequestBody Student student) {
+    @PutMapping("/update")
+    public ResponseEntity<?> updateStudent(@RequestParam long id, @RequestBody Student student) {
         istudentservice.updateStudent(id, student);
         return ResponseEntity.ok().body("Your profile is edited!");
     }
