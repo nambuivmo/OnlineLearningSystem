@@ -2,7 +2,7 @@ package com.onlinelearningsystem.controller;
 
 import com.onlinelearningsystem.dto.CourseDTO;
 import com.onlinelearningsystem.model.Course;
-import com.onlinelearningsystem.model.Student;
+import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.course.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +32,16 @@ public class CourseController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<CourseDTO>> getAllCourse() {
-        return ResponseEntity.ok().body(courseService.findAll());
+    public ResponseEntity<PageResponse<CourseDTO>> getAllCourse(
+            @RequestParam("pageNumber") int pageNumber,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+            @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") String sortOrder,
+            @RequestParam("courseName") String courseName,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName
+    ) {
+        PageResponse<CourseDTO> courseDTO = courseService.findAll(pageNumber,sortBy,sortOrder,courseName,firstName, lastName);
+        return new ResponseEntity<>(courseDTO, HttpStatus.OK);
     }
 
     @GetMapping("/search/")

@@ -2,11 +2,12 @@ package com.onlinelearningsystem.service.course;
 
 import com.onlinelearningsystem.dto.CourseDTO;
 import com.onlinelearningsystem.model.Course;
+import com.onlinelearningsystem.response.PageResponse;
 
 import java.util.List;
 
 public interface ICourseService {
-    List<CourseDTO> findAll();
+    PageResponse<CourseDTO> findAll(int pageNumber, String sortBy, String sortOrder,String courseName, String firstName, String lastName);
 
     List<CourseDTO> getCourse(String courseName, String firstName, String lastName);
 
