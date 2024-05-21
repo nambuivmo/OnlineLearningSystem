@@ -35,8 +35,8 @@ public class TeacherController {
         return ResponseEntity.ok().body(this.teacherService.createTeacher(teacher));
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateTeacher(@PathVariable long id, @RequestBody Teacher teacher) {
+    @PutMapping("/update")
+    public ResponseEntity<?> updateTeacher(@RequestParam long id, @RequestBody Teacher teacher) {
         teacherService.updateTeacher(id, teacher);
         return ResponseEntity.ok().body("Your profile is edited!");
     }
