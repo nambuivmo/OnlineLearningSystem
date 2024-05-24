@@ -103,10 +103,10 @@ public class AccountServiceImpl implements IAccountService{
         addAccount.setPassword(passwordEncoder.encode(account.getPassword()));
         addAccount.setBanned(false);
         addAccount.setRoleAccount(roleAccount.get());
+        accountRepository.save(addAccount);
         String jwtToken = jwtService.generateToken(addAccount);
         jwtService.generateRefreshToken(addAccount);
         saveUserToken(addAccount,jwtToken);
-        accountRepository.save(addAccount);
     }
 
 
