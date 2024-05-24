@@ -1,5 +1,6 @@
 package com.onlinelearningsystem.service.teacher;
 
+import com.onlinelearningsystem.dto.AddTeacherDTO;
 import com.onlinelearningsystem.dto.TeacherDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.model.Teacher;
@@ -13,7 +14,7 @@ public interface ITeacherService {
 
     Teacher updateTeacher(long id, Teacher teacher);
 
-    Teacher createTeacher(Teacher teacher);
+    void createTeacher(AddTeacherDTO teacher,long idAccount);
 
     TeacherDTO getTeacherById(long id);
 }

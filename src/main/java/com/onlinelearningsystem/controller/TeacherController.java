@@ -1,5 +1,6 @@
 package com.onlinelearningsystem.controller;
 
+import com.onlinelearningsystem.dto.AddTeacherDTO;
 import com.onlinelearningsystem.dto.TeacherDTO;
 import com.onlinelearningsystem.model.Teacher;
 import com.onlinelearningsystem.response.PageResponse;
@@ -31,8 +32,8 @@ public class TeacherController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity <Teacher> createTeacher(@RequestBody Teacher teacher) {
-        return ResponseEntity.ok().body(this.teacherService.createTeacher(teacher));
+    public void createTeacher(@RequestBody AddTeacherDTO teacher,@RequestParam long idAccount) {
+         this.teacherService.createTeacher(teacher,idAccount);
     }
 
     @PutMapping("/update")
@@ -45,6 +46,7 @@ public class TeacherController {
     public ResponseEntity<TeacherDTO> getTeacherProfile(@RequestParam("id") long id) {
         return ResponseEntity.ok().body(this.teacherService.getTeacherById(id));
     }
+
 
 
 }
