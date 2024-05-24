@@ -1,8 +1,6 @@
 package com.onlinelearningsystem.controller;
 
-import com.onlinelearningsystem.auth.RegisterRequest;
-import com.onlinelearningsystem.dto.AccountDto;
-import com.onlinelearningsystem.dto.AddAccountDTO;
+
 import com.onlinelearningsystem.dto.LoginDTO;
 import com.onlinelearningsystem.response.LoginResponse;
 import com.onlinelearningsystem.service.account.IAccountService;

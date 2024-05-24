@@ -28,7 +28,7 @@ public class AccountController {
     @Autowired
     private IAccountService accountService;
     @GetMapping("")
-//    @PreAuthorize("hasAuthority('admin:read')")
+    @PreAuthorize("@accountServiceImpl.getRoles().contains('ADMIN')")
     public ResponseEntity<PageResponse<AccountDto>> findAll(
             @RequestParam(name ="pageNumber",required = false, defaultValue = "0") int pageNumber,
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
@@ -40,16 +40,13 @@ public class AccountController {
     }
 
     @PutMapping("/updateActive/")
-    @PreAuthorize("hasAuthority('admin:update')")
     public ResponseEntity<Account> updateActive(@RequestParam("id") long id, @RequestParam("isBanned") boolean isBanned){
         return ResponseEntity.ok().body(accountService.updateActive(id, isBanned));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(
-            @RequestBody AddAccountDTO account
-    ) {
-        accountService.register(account);
+    public ResponseEntity<?> register(@RequestBody AddAccountDTO account) {
+        this.accountService.register(account);
         return ResponseEntity.ok("Register successfully");
     }
 //    @GetMapping("/list")

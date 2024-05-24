@@ -10,6 +10,7 @@ import java.beans.Transient;
 import java.io.IOException;
 import java.security.Security;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
-
+    private final HttpSession session;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -54,6 +55,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             var isTokenValid = tokenRepository.findByToken(jwt)
                     .map(t -> !t.isExpired() && !t.isRevoked())
                     .orElse(false);
+            session.setAttribute("authorities", userDetails.getAuthorities());
+            System.out.println(userDetails.getAuthorities());
             if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

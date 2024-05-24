@@ -20,4 +20,6 @@ public interface IAccountService {
     PageResponse<AccountDto> findAll(int pageNumber,String sortBy, String sortOrder,String email);
 
     void register(AddAccountDTO account);
+
+    List<String> getRoles();
 }

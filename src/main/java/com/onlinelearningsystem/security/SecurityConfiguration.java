@@ -14,26 +14,30 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.onlinelearningsystem.security.Permission.*;
-import static com.onlinelearningsystem.security.Role.*;
+//import static com.onlinelearningsystem.security.Permission.*;
+//import static com.onlinelearningsystem.security.Role.*;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
-    private static final String[] WHITE_LIST_URL = {"/api/v1/users/**",
+    private static final String[] WHITE_LIST_URL = {
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
             "/configuration/ui",
             "/configuration/security",
-            "/",
-            "/api/v1/users/login",
-            "/account"
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-ui.html",
+            "/account/register",
+            "/api/v1/users/login"
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -46,11 +50,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/api/v1//").hasRole(ADMIN.name())
-                                .requestMatchers(GET, "/api/v1//").hasAnyAuthority(ADMIN_READ.name())
-                                .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), STUDENT_CREATE.name(),TEACHER_CREATE.name())
-                                .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(ADMIN_UPDATE.name(), STUDENT_UPDATE.name(),TEACHER_UPDATE.name())
-                                .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name(), STUDENT_DELETE.name(),TEACHER_DELETE.name())
                                 .anyRequest()
                                 .authenticated()
                 )

@@ -13,11 +13,15 @@ import com.onlinelearningsystem.security.JwtService;
 import com.onlinelearningsystem.token.Token;
 import com.onlinelearningsystem.token.TokenRepository;
 import com.onlinelearningsystem.token.TokenType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,7 +37,8 @@ public class AccountServiceImpl implements IAccountService{
     private TokenRepository tokenRepository;
     @Autowired
     private RoleRepository roleRepository;
-
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public Account updateActive(long id, boolean isBanned) {
@@ -107,6 +112,18 @@ public class AccountServiceImpl implements IAccountService{
         String jwtToken = jwtService.generateToken(addAccount);
         jwtService.generateRefreshToken(addAccount);
         saveUserToken(addAccount,jwtToken);
+    }
+
+    @Override
+    public List<String> getRoles() {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            @SuppressWarnings("unchecked")
+            List<String> roleToken = (List<String>) session.getAttribute("authorities");
+            System.out.println(roleToken);
+            return roleToken != null ? roleToken : new ArrayList<>();
+        }
+        return new ArrayList<>();
     }
 
 
