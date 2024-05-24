@@ -1,9 +1,13 @@
 package com.onlinelearningsystem.service.student;
 
+import com.onlinelearningsystem.dto.AddStudentDTO;
 import com.onlinelearningsystem.dto.StudentDTO;
+import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.model.Student;
+import com.onlinelearningsystem.repository.AccountRepository;
 import com.onlinelearningsystem.repository.StudentRepository;
 import com.onlinelearningsystem.response.PageResponse;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,13 +16,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
 
     @Autowired
     private StudentRepository studentRepository;
-
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Override
     public PageResponse<StudentDTO> findAll(int pageNumber,String sortBy,String sortOrder,String firstName,String lastName) {
@@ -46,8 +52,21 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Student createStudent(Student student) {
-        return null;
+    public void createStudent(AddStudentDTO student,long idAccount) {
+        Student addStudent= new Student();
+        Optional<Account> account = accountRepository.findById(idAccount);
+        if (account.isPresent()){
+            addStudent.setFirstName(student.getFirstName()); // Sửa tên phương thức
+            addStudent.setLastName(student.getLastName());   // Sửa tên phương thức
+            addStudent.setDob(student.getDob());             // Sửa tên phương thức
+            addStudent.setPhoneNumber(student.getPhoneNumber()); // Sửa tên phương thức
+            addStudent.setGender(student.isGender());        // Sửa tên phương thức
+            addStudent.setAddress(student.getAddress());     // Sửa tên phương thức
+            addStudent.setAccount(account.get());
+            studentRepository.save(addStudent);
+        }else {
+            throw new EntityNotFoundException("Account not found with id: " + idAccount);
+        }
     }
 
     @Override

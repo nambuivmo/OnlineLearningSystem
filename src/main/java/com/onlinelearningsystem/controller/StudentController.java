@@ -1,8 +1,7 @@
 package com.onlinelearningsystem.controller;
 
-import com.onlinelearningsystem.dto.AccountDto;
+import com.onlinelearningsystem.dto.AddStudentDTO;
 import com.onlinelearningsystem.dto.StudentDTO;
-import com.onlinelearningsystem.dto.TeacherDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.student.IStudentService;
@@ -11,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Controller
@@ -36,8 +33,8 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity < Student > createStudent(@RequestBody Student student) {
-        return ResponseEntity.ok().body(this.istudentservice.createStudent(student));
+    public void createStudent(@RequestBody AddStudentDTO student, @RequestParam long idAccount) {
+         this.istudentservice.createStudent(student,idAccount);
     }
 
     @PutMapping("/update")
