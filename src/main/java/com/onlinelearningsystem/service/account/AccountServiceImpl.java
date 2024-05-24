@@ -1,9 +1,12 @@
 package com.onlinelearningsystem.service.account;
 
 import com.onlinelearningsystem.dto.AccountDto;
+import com.onlinelearningsystem.dto.AddAccountDTO;
 import com.onlinelearningsystem.dto.LoginDTO;
 import com.onlinelearningsystem.model.Account;
+import com.onlinelearningsystem.model.RoleAccount;
 import com.onlinelearningsystem.repository.AccountRepository;
+import com.onlinelearningsystem.repository.RoleRepository;
 import com.onlinelearningsystem.response.LoginResponse;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.security.JwtService;
@@ -15,7 +18,6 @@ import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +31,8 @@ public class AccountServiceImpl implements IAccountService{
     private JwtService jwtService;
     @Autowired
     private TokenRepository tokenRepository;
-
+    @Autowired
+    private RoleRepository roleRepository;
 
 
     @Override
@@ -90,6 +93,20 @@ public class AccountServiceImpl implements IAccountService{
         pageResponse.setTotalPages(accountPage.getTotalPages());
         pageResponse.setPageNo(pageNumber);
         return pageResponse;
+    }
+
+    @Override
+    public void register(AddAccountDTO account) {
+        Optional<RoleAccount> roleAccount =roleRepository.findById(account.getIdRole());
+        Account addAccount= new Account();
+        addAccount.setEmail(account.getEmail());
+        addAccount.setPassword(passwordEncoder.encode(account.getPassword()));
+        addAccount.setBanned(false);
+        addAccount.setRoleAccount(roleAccount.get());
+        String jwtToken = jwtService.generateToken(addAccount);
+        jwtService.generateRefreshToken(addAccount);
+        saveUserToken(addAccount,jwtToken);
+        accountRepository.save(addAccount);
     }
 
 

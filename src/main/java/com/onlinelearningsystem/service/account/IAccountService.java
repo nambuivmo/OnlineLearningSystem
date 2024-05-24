@@ -2,6 +2,7 @@ package com.onlinelearningsystem.service.account;
 
 
 import com.onlinelearningsystem.dto.AccountDto;
+import com.onlinelearningsystem.dto.AddAccountDTO;
 import com.onlinelearningsystem.dto.LoginDTO;
 import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.response.LoginResponse;
@@ -17,4 +18,6 @@ public interface IAccountService {
     LoginResponse login(LoginDTO loginDTO);
 
     PageResponse<AccountDto> findAll(int pageNumber,String sortBy, String sortOrder,String email);
+
+    void register(AddAccountDTO account);
 }

@@ -1,6 +1,9 @@
 package com.onlinelearningsystem.controller;
 
+import com.onlinelearningsystem.auth.AuthenticationResponse;
+import com.onlinelearningsystem.auth.RegisterRequest;
 import com.onlinelearningsystem.dto.AccountDto;
+import com.onlinelearningsystem.dto.AddAccountDTO;
 import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.account.IAccountService;
@@ -42,6 +45,13 @@ public class AccountController {
         return ResponseEntity.ok().body(accountService.updateActive(id, isBanned));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> register(
+            @RequestBody AddAccountDTO account
+    ) {
+        accountService.register(account);
+        return ResponseEntity.ok("Register successfully");
+    }
 //    @GetMapping("/list")
 //    public String listAccounts(Model model) {
 //        List<AccountDto> accounts = accountService.findAll(); // Lấy danh sách account từ service
