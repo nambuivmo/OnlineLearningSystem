@@ -11,7 +11,6 @@ public interface CourseDTO {
 
     public LocalDate getCreateDate();
 
-    public String getFirstName();
+    public String getNameTeacher();
 
-    public String getLastName();
 }

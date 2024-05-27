@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ITeacherService {
 
-    PageResponse<TeacherDTO> findAll(int pageNumber, String sortBy, String sortOrder,String firstName, String lastName);
+    PageResponse<TeacherDTO> findAll(int pageNumber, String sortBy, String sortOrder,String nameTeacher);
 
     Teacher updateTeacher(long id, Teacher teacher);
 

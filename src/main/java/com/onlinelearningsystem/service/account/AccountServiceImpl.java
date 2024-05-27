@@ -111,9 +111,6 @@ public class AccountServiceImpl implements IAccountService{
         addAccount.setBanned(false);
         addAccount.setRoleAccount(roleAccount.get());
         accountRepository.save(addAccount);
-        String jwtToken = jwtService.generateToken(addAccount);
-        jwtService.generateRefreshToken(addAccount);
-        saveUserToken(addAccount,jwtToken);
     }
 
     @Override
@@ -122,9 +119,6 @@ public class AccountServiceImpl implements IAccountService{
         if (session != null) {
             @SuppressWarnings("unchecked")
             List<String> roleToken = (List<String>) session.getAttribute("authorities");
-
-            System.out.println(roleToken.toString());
-            System.out.println(roleToken.toString().contains("ADMIN"));
             return roleToken != null ? roleToken : new ArrayList<>();
         }
         return new ArrayList<>();

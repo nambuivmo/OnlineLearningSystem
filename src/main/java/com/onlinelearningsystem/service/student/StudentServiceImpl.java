@@ -1,6 +1,7 @@
 package com.onlinelearningsystem.service.student;
 
 import com.onlinelearningsystem.dto.AddStudentDTO;
+import com.onlinelearningsystem.dto.SearchStudentDTO;
 import com.onlinelearningsystem.dto.StudentDTO;
 import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.model.Student;
@@ -27,7 +28,7 @@ public class StudentServiceImpl implements IStudentService {
     private AccountRepository accountRepository;
 
     @Override
-    public PageResponse<StudentDTO> findAll(int pageNumber,String sortBy,String sortOrder,String firstName,String lastName) {
+    public PageResponse<SearchStudentDTO> findAll(int pageNumber,String sortBy,String sortOrder,String nameStudent) {
         int pageSize = 5;
         Pageable pageable;
 
@@ -36,14 +37,11 @@ public class StudentServiceImpl implements IStudentService {
         } else {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         }
-        if (firstName == null) {
-            firstName = "";
+        if (nameStudent == null) {
+            nameStudent = "";
         }
-        if (lastName == null) {
-            lastName = "";
-        }
-        Page<StudentDTO> studentPage = studentRepository.findAllStudent(pageable,firstName,lastName);
-        PageResponse<StudentDTO> pageResponse = new PageResponse<>();
+        Page<SearchStudentDTO> studentPage = studentRepository.findAllStudent(pageable,nameStudent);
+        PageResponse<SearchStudentDTO> pageResponse = new PageResponse<>();
         pageResponse.setItems(studentPage.getContent());
         pageResponse.setTotalElements(studentPage.getTotalElements());
         pageResponse.setTotalPages(studentPage.getTotalPages());

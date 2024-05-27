@@ -21,14 +21,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Controller
 @RequestMapping("/account")
-//@PreAuthorize("hasRole('ADMIN')")
 public class AccountController {
     @Autowired
     private IAccountService accountService;
+
     @GetMapping("")
-    @PreAuthorize("@accountServiceImpl.getRoles().contains('ADMIN')")
+    @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('ADMIN')")
     public ResponseEntity<PageResponse<AccountDto>> findAll(
             @RequestParam(name ="pageNumber",required = false, defaultValue = "0") int pageNumber,
             @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
@@ -40,8 +39,10 @@ public class AccountController {
     }
 
     @PutMapping("/updateActive/")
-    public ResponseEntity<Account> updateActive(@RequestParam("id") long id, @RequestParam("isBanned") boolean isBanned){
-        return ResponseEntity.ok().body(accountService.updateActive(id, isBanned));
+    @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('ADMIN')")
+    public ResponseEntity<?> updateActive(@RequestParam("id") long id, @RequestParam("isBanned") boolean isBanned){
+        this.accountService.updateActive(id, isBanned);
+        return ResponseEntity.ok("Update active successfully");
     }
 
     @PostMapping("/register")
@@ -49,6 +50,9 @@ public class AccountController {
         this.accountService.register(account);
         return ResponseEntity.ok("Register successfully");
     }
+
+
+
 //    @GetMapping("/list")
 //    public String listAccounts(Model model) {
 //        List<AccountDto> accounts = accountService.findAll(); // Lấy danh sách account từ service

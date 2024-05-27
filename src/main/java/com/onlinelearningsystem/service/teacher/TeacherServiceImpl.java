@@ -27,7 +27,7 @@ public class TeacherServiceImpl implements ITeacherService{
     @Autowired
     private AccountRepository accountRepository;
     @Override
-    public PageResponse<TeacherDTO> findAll(int pageNumber, String sortBy, String sortOrder,String firstName, String lastName) {
+    public PageResponse<TeacherDTO> findAll(int pageNumber, String sortBy, String sortOrder,String nameTeacher) {
         int pageSize = 5;
         Pageable pageable;
         if (sortOrder.equalsIgnoreCase("asc")) {
@@ -35,12 +35,10 @@ public class TeacherServiceImpl implements ITeacherService{
         } else {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         }
-        if (firstName == null) {
-            firstName="";
-        }else if (lastName == null) {
-            lastName="";
+        if (nameTeacher == null) {
+            nameTeacher="";
         }
-        Page<TeacherDTO> teacherDTO = teacherRepository.findAllTeacher(pageable,firstName,lastName);
+        Page<TeacherDTO> teacherDTO = teacherRepository.findAllTeacher(pageable,nameTeacher);
         PageResponse<TeacherDTO> pageResponse = new PageResponse<>();
         pageResponse.setItems(teacherDTO.getContent());
         pageResponse.setTotalElements(teacherDTO.getTotalElements());

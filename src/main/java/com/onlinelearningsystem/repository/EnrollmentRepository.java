@@ -1,4 +1,7 @@
 package com.onlinelearningsystem.repository;
 
-public interface EnrollmentRepository {
+import com.onlinelearningsystem.model.Enrollment;
+import org.springframework.data.repository.CrudRepository;
+
+public interface EnrollmentRepository extends CrudRepository<Enrollment, Long> {
 }
