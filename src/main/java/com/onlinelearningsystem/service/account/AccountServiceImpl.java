@@ -58,6 +58,7 @@ public class AccountServiceImpl implements IAccountService{
     public LoginResponse login(LoginDTO loginDTO) {
         Optional<Account> account = accountRepository.findByEmail(loginDTO.getEmail());
         if(account.isPresent()) {
+            if (!account.get().isBanned()){
             String password = loginDTO.getPassword();
             String endcoderPassword = account.get().getPassword();
             var isPwdRight= passwordEncoder.matches(password, endcoderPassword);
@@ -72,9 +73,10 @@ public class AccountServiceImpl implements IAccountService{
                     return new LoginResponse( "Login Failed", false);
                 }
             } else {
-                System.out.println(password);
-                System.out.println(endcoderPassword);
                 return new LoginResponse("password Not Match", false);
+            }
+            }else{
+                return new LoginResponse("Your account is banned", false);
             }
         }else {
             return new LoginResponse("Email not exits", false);
@@ -120,7 +122,9 @@ public class AccountServiceImpl implements IAccountService{
         if (session != null) {
             @SuppressWarnings("unchecked")
             List<String> roleToken = (List<String>) session.getAttribute("authorities");
-            System.out.println(roleToken);
+
+            System.out.println(roleToken.toString());
+            System.out.println(roleToken.toString().contains("ADMIN"));
             return roleToken != null ? roleToken : new ArrayList<>();
         }
         return new ArrayList<>();
