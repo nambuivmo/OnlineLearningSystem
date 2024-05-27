@@ -8,8 +8,10 @@ import com.onlinelearningsystem.model.RoleAccount;
 import com.onlinelearningsystem.repository.AccountRepository;
 import com.onlinelearningsystem.repository.RoleRepository;
 import com.onlinelearningsystem.response.LoginResponse;
+import com.onlinelearningsystem.response.MessResponse;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.security.JwtService;
+import com.onlinelearningsystem.service.email.EmailSenderService;
 import com.onlinelearningsystem.token.Token;
 import com.onlinelearningsystem.token.TokenRepository;
 import com.onlinelearningsystem.token.TokenType;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +42,8 @@ public class AccountServiceImpl implements IAccountService{
     private RoleRepository roleRepository;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     @Override
     public Account updateActive(long id, boolean isBanned) {
@@ -124,6 +129,54 @@ public class AccountServiceImpl implements IAccountService{
         return new ArrayList<>();
     }
 
+
+
+    @Override
+    public MessResponse forgotPassword(String email) {
+        Optional<Account> account = accountRepository.findByEmail(email);
+        if (account.isPresent()) {
+            String password = generateRandomString(6);
+            account.get().setPassword(passwordEncoder.encode(password));
+            System.out.println(password);
+            accountRepository.save(account.get());
+            emailSenderService.sendEmail(email,"Reset password","Your new password is " + password);
+            return new MessResponse("Please check your mail to get new password", true);
+        }else{
+            return new MessResponse("Email not exits", false);
+        }
+    }
+
+    @Override
+    public MessResponse changePassword(String email,String oldPassword,String newPassword) {
+        Optional<Account> account = accountRepository.findByEmail(email);
+        if (account.isPresent()) {
+            String endcoderPassword = account.get().getPassword();
+            var isPwdRight= passwordEncoder.matches(oldPassword, endcoderPassword);
+            if (isPwdRight) {
+                account.get().setPassword(passwordEncoder.encode(newPassword));
+                accountRepository.save(account.get());
+                return new MessResponse("Change password successfully", true);
+            }else{
+                return new MessResponse("Password not true", false);
+            }
+        } else {
+            return new MessResponse("Email not exists", false);
+        }
+
+    }
+
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final SecureRandom RANDOM = new SecureRandom();
+
+    private static String generateRandomString(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomIndex = RANDOM.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(randomIndex));
+        }
+        return sb.toString();
+    }
 
     private void saveUserToken(Account account, String jwtToken) {
         var token = Token.builder()

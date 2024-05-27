@@ -6,6 +6,7 @@ import com.onlinelearningsystem.dto.AddAccountDTO;
 import com.onlinelearningsystem.dto.LoginDTO;
 import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.response.LoginResponse;
+import com.onlinelearningsystem.response.MessResponse;
 import com.onlinelearningsystem.response.PageResponse;
 
 
@@ -22,4 +23,8 @@ public interface IAccountService {
     void register(AddAccountDTO account);
 
     List<String> getRoles();
+
+    MessResponse forgotPassword(String email);
+
+    MessResponse changePassword(String email,String oldPassword,String newPassword);
 }

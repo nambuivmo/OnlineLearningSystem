@@ -1,30 +1,22 @@
 package com.onlinelearningsystem.controller;
 
-import com.onlinelearningsystem.auth.AuthenticationResponse;
-import com.onlinelearningsystem.auth.RegisterRequest;
 import com.onlinelearningsystem.dto.AccountDto;
 import com.onlinelearningsystem.dto.AddAccountDTO;
-import com.onlinelearningsystem.model.Account;
+import com.onlinelearningsystem.response.MessResponse;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.account.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/account")
 public class AccountController {
     @Autowired
     private IAccountService accountService;
+
 
     @GetMapping("")
     @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('ADMIN')")
@@ -51,7 +43,20 @@ public class AccountController {
         return ResponseEntity.ok("Register successfully");
     }
 
+    @GetMapping("/forgotPassword")
+    public ResponseEntity<?> forgotPassword(@RequestParam("email") String email) {
+        MessResponse mailRepsonse=accountService.forgotPassword(email);
+        return ResponseEntity.ok(mailRepsonse);
+    }
 
+    @PutMapping("/changePassword")
+    @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('ADMIN')")
+    public ResponseEntity<?> changePassword(@RequestParam("email") String email,
+                                            @RequestParam("oldPassword") String oldPassword,
+                                            @RequestParam("newPassword") String newPassword){
+        MessResponse messResponse= accountService.changePassword(email,oldPassword,newPassword);
+        return ResponseEntity.ok(messResponse);
+    }
 
 //    @GetMapping("/list")
 //    public String listAccounts(Model model) {
