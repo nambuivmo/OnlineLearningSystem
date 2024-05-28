@@ -24,10 +24,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true,
-            value = "INSERT INTO course (course_name, create_date, description, id_teacher)\n" +
-                    "VALUES (?1, ?2, ?3, ?4)")
-
-    void  createCourse(String courseName, LocalDate createDate, String description, long teacherId);
+            value = "INSERT INTO course (course_name, create_date, description, id_teacher, amount) " +
+                    "VALUES (?1, ?2, ?3, ?4, ?5)")
+    void createCourse(String courseName, LocalDate createDate, String description, long teacherId, double amount);
 
     @Query(nativeQuery = true,
             value="Select c.id as id, c.course_name as name, c.create_date as createDate, c.description as description, CONCAT(t.first_name, ' ', t.last_name) as nameTeacher \n" +

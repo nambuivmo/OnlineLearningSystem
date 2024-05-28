@@ -2,6 +2,7 @@ package com.onlinelearningsystem.controller;
 
 import com.onlinelearningsystem.dto.AddTeacherDTO;
 import com.onlinelearningsystem.dto.TeacherDTO;
+import com.onlinelearningsystem.dto.UpdateTeacherDTO;
 import com.onlinelearningsystem.model.Teacher;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.teacher.ITeacherService;
@@ -38,7 +39,7 @@ public class TeacherController {
 
     @PutMapping("/update")
     @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('TEACHER')")
-    public ResponseEntity<?> updateTeacher(@RequestParam long id, @RequestBody Teacher teacher) {
+    public ResponseEntity<?> updateTeacher(@RequestParam long id, @RequestBody UpdateTeacherDTO teacher) {
         teacherService.updateTeacher(id, teacher);
         return ResponseEntity.ok().body("Your profile is edited!");
     }

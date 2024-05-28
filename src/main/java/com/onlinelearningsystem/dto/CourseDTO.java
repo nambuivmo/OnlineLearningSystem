@@ -2,6 +2,7 @@ package com.onlinelearningsystem.dto;
 
 import java.time.LocalDate;
 
+
 public interface CourseDTO {
     public Long getId();
 

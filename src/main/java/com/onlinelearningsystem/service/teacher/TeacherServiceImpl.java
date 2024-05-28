@@ -3,6 +3,7 @@ package com.onlinelearningsystem.service.teacher;
 
 import com.onlinelearningsystem.dto.AddTeacherDTO;
 import com.onlinelearningsystem.dto.TeacherDTO;
+import com.onlinelearningsystem.dto.UpdateTeacherDTO;
 import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.model.Teacher;
 import com.onlinelearningsystem.repository.AccountRepository;
@@ -48,7 +49,7 @@ public class TeacherServiceImpl implements ITeacherService{
     }
 
     @Override
-    public Teacher updateTeacher(long id, Teacher teacher) {
+    public void updateTeacher(long id, UpdateTeacherDTO teacher) {
         Teacher teacherId= teacherRepository.findById(id).get();
         teacherId.setFirstName(teacher.getFirstName());
         teacherId.setLastName(teacher.getLastName());
@@ -56,7 +57,8 @@ public class TeacherServiceImpl implements ITeacherService{
         teacherId.setGender(teacher.isGender());
         teacherId.setAddress(teacher.getAddress());
         teacherId.setPhoneNumber(teacher.getPhoneNumber());
-        return teacherRepository.save(teacherId);
+        teacherId.setAccount(teacherId.getAccount());
+        teacherRepository.save(teacherId);
     }
 
     @Override

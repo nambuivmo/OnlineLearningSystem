@@ -1,6 +1,6 @@
 package com.onlinelearningsystem.controller;
 
-import com.onlinelearningsystem.dto.AddCourseDTO;
+import com.onlinelearningsystem.dto.AddUpdateCourseDTO;
 import com.onlinelearningsystem.dto.CourseDTO;
 import com.onlinelearningsystem.dto.EnrollCouseDTO;
 import com.onlinelearningsystem.model.Course;
@@ -24,7 +24,7 @@ public class CourseController {
     //API
     @PostMapping("/add")
     @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('TEACHER')")
-    public ResponseEntity <?> createStudent(@RequestParam("idTeacher") long idTeacher, @RequestBody AddCourseDTO courseDTO) {
+    public ResponseEntity <?> createStudent(@RequestParam("idTeacher") long idTeacher, @RequestBody AddUpdateCourseDTO courseDTO) {
 
             this.courseService.createCourse(idTeacher,courseDTO);
             return ResponseEntity.ok().body("Course added successfully!");
@@ -45,7 +45,7 @@ public class CourseController {
 
     @PutMapping("/update")
     @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('TEACHER')")
-    public ResponseEntity<?> updateCourse(@RequestParam("id") long id, @RequestBody Course course) {
+    public ResponseEntity<?> updateCourse(@RequestParam("id") long id, @RequestBody AddUpdateCourseDTO course) {
         courseService.updateCourse(id, course);
         return ResponseEntity.ok().body("Your course is edited!");
     }

@@ -3,6 +3,7 @@ package com.onlinelearningsystem.service.student;
 import com.onlinelearningsystem.dto.AddStudentDTO;
 import com.onlinelearningsystem.dto.SearchStudentDTO;
 import com.onlinelearningsystem.dto.StudentDTO;
+import com.onlinelearningsystem.dto.UpdateStudentDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.response.PageResponse;
 
@@ -15,7 +16,7 @@ public interface IStudentService {
 
     void createStudent(AddStudentDTO student,long idAccount);
 
-    Student updateStudent(Long id,Student student);
+    void updateStudent(Long id, UpdateStudentDTO student);
 
     StudentDTO getStudent(long id);
 }

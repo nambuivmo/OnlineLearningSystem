@@ -3,6 +3,7 @@ package com.onlinelearningsystem.service.student;
 import com.onlinelearningsystem.dto.AddStudentDTO;
 import com.onlinelearningsystem.dto.SearchStudentDTO;
 import com.onlinelearningsystem.dto.StudentDTO;
+import com.onlinelearningsystem.dto.UpdateStudentDTO;
 import com.onlinelearningsystem.model.Account;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.repository.AccountRepository;
@@ -68,7 +69,7 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Student updateStudent(Long id, Student student) {
+    public void updateStudent(Long id, UpdateStudentDTO student) {
         Student studentId= studentRepository.findById(id).get();
         studentId.setFirstName(student.getFirstName());
         studentId.setLastName(student.getLastName());
@@ -76,7 +77,7 @@ public class StudentServiceImpl implements IStudentService {
         studentId.setGender(student.isGender());
         studentId.setAddress(student.getAddress());
         studentId.setPhoneNumber(student.getPhoneNumber());
-        return studentRepository.save(studentId);
+        studentRepository.save(studentId);
     }
 
     @Override

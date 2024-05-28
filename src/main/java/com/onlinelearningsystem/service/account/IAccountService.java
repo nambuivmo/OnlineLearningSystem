@@ -27,4 +27,5 @@ public interface IAccountService {
     MessResponse forgotPassword(String email);
 
     MessResponse changePassword(String email,String oldPassword,String newPassword);
+
 }

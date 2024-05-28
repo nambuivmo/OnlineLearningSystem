@@ -3,6 +3,7 @@ package com.onlinelearningsystem.controller;
 import com.onlinelearningsystem.dto.AddStudentDTO;
 import com.onlinelearningsystem.dto.SearchStudentDTO;
 import com.onlinelearningsystem.dto.StudentDTO;
+import com.onlinelearningsystem.dto.UpdateStudentDTO;
 import com.onlinelearningsystem.model.Student;
 import com.onlinelearningsystem.response.PageResponse;
 import com.onlinelearningsystem.service.account.IAccountService;
@@ -42,7 +43,7 @@ public class StudentController {
 
     @PutMapping("/update")
     @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('STUDENT')")
-    public ResponseEntity<?> updateStudent(@RequestParam("id") long id,@RequestBody Student student) {
+    public ResponseEntity<?> updateStudent(@RequestParam("id") long id,@RequestBody UpdateStudentDTO student) {
         istudentservice.updateStudent(id, student);
         return ResponseEntity.ok().body("Your profile is edited!");
     }

@@ -44,7 +44,6 @@ public class AccountServiceImpl implements IAccountService{
     private HttpServletRequest request;
     @Autowired
     private EmailSenderService emailSenderService;
-
     @Override
     public Account updateActive(long id, boolean isBanned) {
         Optional< Account > accountDb = this.accountRepository.findById(id);
@@ -129,8 +128,6 @@ public class AccountServiceImpl implements IAccountService{
         return new ArrayList<>();
     }
 
-
-
     @Override
     public MessResponse forgotPassword(String email) {
         Optional<Account> account = accountRepository.findByEmail(email);
@@ -164,7 +161,6 @@ public class AccountServiceImpl implements IAccountService{
         }
 
     }
-
 
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final SecureRandom RANDOM = new SecureRandom();

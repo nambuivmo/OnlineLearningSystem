@@ -1,19 +1,17 @@
 package com.onlinelearningsystem.service.course;
 
-import com.onlinelearningsystem.dto.AddCourseDTO;
+import com.onlinelearningsystem.dto.AddUpdateCourseDTO;
 import com.onlinelearningsystem.dto.CourseDTO;
 import com.onlinelearningsystem.dto.EnrollCouseDTO;
 import com.onlinelearningsystem.model.Course;
 import com.onlinelearningsystem.response.PageResponse;
 
-import java.util.List;
-
 public interface ICourseService {
     PageResponse<CourseDTO> findAll(int pageNumber, String sortBy, String sortOrder,String courseName, String nameTeacher);
 
-    Course updateCourse(long id, Course course);
+    void updateCourse(long id, AddUpdateCourseDTO course);
 
-    void createCourse(long idTeacher, AddCourseDTO course);
+    void createCourse(long idTeacher, AddUpdateCourseDTO course);
 
     void enrollCourse(EnrollCouseDTO enrollCouseDTO);
 

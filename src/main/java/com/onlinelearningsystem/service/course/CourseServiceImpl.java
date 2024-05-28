@@ -1,6 +1,6 @@
 package com.onlinelearningsystem.service.course;
 
-import com.onlinelearningsystem.dto.AddCourseDTO;
+import com.onlinelearningsystem.dto.AddUpdateCourseDTO;
 import com.onlinelearningsystem.dto.CourseDTO;
 import com.onlinelearningsystem.dto.EnrollCouseDTO;
 import com.onlinelearningsystem.model.Course;
@@ -59,24 +59,23 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
-    public Course updateCourse(long id, Course course) {
+    public void updateCourse(long id, AddUpdateCourseDTO course) {
         Optional<Course> courseDbOptional  = this.courseRepository.findById(id);
         if (courseDbOptional.isPresent()) {
             Course courseDb = courseDbOptional.get();
             courseDb.setName(course.getName());
             courseDb.setDescription(course.getDescription());
-            return courseRepository.save(courseDb);
-        }else{
-            return null;
+            courseDb.setAmount(course.getPrice());
+            courseRepository.save(courseDb);
         }
     }
 
     @Transactional
     @Override
-    public void createCourse(long teacherId, AddCourseDTO course) {
+    public void createCourse(long teacherId, AddUpdateCourseDTO course) {
         if (course != null) {
             LocalDate dateNow = LocalDate.now();
-            this.courseRepository.createCourse(course.getName(), dateNow, course.getDescription(), teacherId);
+            this.courseRepository.createCourse(course.getName(), dateNow, course.getDescription(), teacherId,course.getPrice());
         }
     }
 

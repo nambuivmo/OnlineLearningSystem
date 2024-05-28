@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddCourseDTO {
+public class AddUpdateCourseDTO {
     private String name;
     private String description;
+    private double price;
 }

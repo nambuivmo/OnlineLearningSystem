@@ -29,6 +29,9 @@ public class Course implements Serializable {
     @Column(name = "create_date" , nullable = false)
     private LocalDate createDate;
 
+    @Column(name = "amount" , nullable = false)
+    private double amount;
+
     @ManyToOne(fetch = FetchType.LAZY) // Adding fetch type to optimize loading strategy
     @JoinColumn(name = "id_teacher" , nullable = false) // Explicitly specify join column
     private Teacher teacher;
