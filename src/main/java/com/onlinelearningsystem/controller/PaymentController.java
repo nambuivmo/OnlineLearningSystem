@@ -39,13 +39,9 @@ public class PaymentController {
 
     @GetMapping("/paymentInfor")
     public ResponseEntity<?> createPayment() throws UnsupportedEncodingException {
-//        String orderType = "other";
-//        long amount = Integer.parseInt(req.getParameter("amount"))*100;
-//        String bankCode = req.getParameter("bankCode");
 
         double amount= 10000.0*100.0;
         String vnp_TxnRef = Config.getRandomNumber(8);
-//        String vnp_IpAddr = Config.getIpAddress(req);
         String vnp_TmnCode = Config.vnp_TmnCode;
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", Config.vnp_Version);

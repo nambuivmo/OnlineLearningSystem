@@ -52,7 +52,7 @@ public class CourseController {
 
     @PostMapping("/enrollCourse")
     @PreAuthorize("@accountServiceImpl.getRoles().toString().contains('STUDENT')")
-    public ResponseEntity <?> createStudent(@RequestBody EnrollCouseDTO enrollCouseDTO) {
+    public ResponseEntity <?> enrollCourse(@RequestBody EnrollCouseDTO enrollCouseDTO) {
         this.courseService.enrollCourse(enrollCouseDTO);
         return ResponseEntity.ok().body("Successfully!");
     }

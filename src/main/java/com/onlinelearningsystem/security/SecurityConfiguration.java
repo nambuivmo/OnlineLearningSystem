@@ -38,7 +38,8 @@ public class SecurityConfiguration {
             "/swagger-ui.html",
             "/account/register",
             "/api/v1/users/login",
-            "/course/list"
+            "/account/forgotPassword"
+
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;

@@ -66,12 +66,12 @@ public class TeacherServiceImpl implements ITeacherService{
         Teacher addTeacher= new Teacher();
         Optional<Account> account = accountRepository.findById(idAccount);
         if (account.isPresent()){
-            addTeacher.setFirstName(teacher.getFirstName()); // Sửa tên phương thức
-            addTeacher.setLastName(teacher.getLastName());   // Sửa tên phương thức
-            addTeacher.setDob(teacher.getDob());             // Sửa tên phương thức
-            addTeacher.setPhoneNumber(teacher.getPhoneNumber()); // Sửa tên phương thức
-            addTeacher.setGender(teacher.isGender());        // Sửa tên phương thức
-            addTeacher.setAddress(teacher.getAddress());     // Sửa tên phương thức
+            addTeacher.setFirstName(teacher.getFirstName());
+            addTeacher.setLastName(teacher.getLastName());
+            addTeacher.setDob(teacher.getDob());
+            addTeacher.setPhoneNumber(teacher.getPhoneNumber());
+            addTeacher.setGender(teacher.isGender());
+            addTeacher.setAddress(teacher.getAddress());
             addTeacher.setAccount(account.get());
             teacherRepository.save(addTeacher);
         }else {
